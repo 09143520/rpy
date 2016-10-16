@@ -1,0 +1,442 @@
+﻿if exists(select 1 from sys.sysforeignkey where role='FK_RELATION_RELATIONS_材料') then
+
+    alter table Relationship_6
+
+       delete foreign key FK_RELATION_RELATIONS_材料
+
+end if;
+
+ 
+
+if exists(select 1 from sys.sysforeignkey where role='FK_RELATION_RELATIONS_保养消耗') then
+
+    alter table Relationship_6
+
+       delete foreign key FK_RELATION_RELATIONS_保养消耗
+
+end if;
+
+ 
+
+if exists(select 1 from sys.sysforeignkey where role='FK_保养消耗_RELATIONS_设备保养单') then
+
+    alter table 保养消耗
+
+       delete foreign key FK_保养消耗_RELATIONS_设备保养单
+
+end if;
+
+ 
+
+if exists(select 1 from sys.sysforeignkey where role='FK_设备_RELATIONS_设备保养单') then
+
+    alter table 设备
+
+       delete foreign key FK_设备_RELATIONS_设备保养单
+
+end if;
+
+ 
+
+if exists(select 1 from sys.sysforeignkey where role='FK_设备_RELATIONS_设备检修预警') then
+
+    alter table 设备
+
+       delete foreign key FK_设备_RELATIONS_设备检修预警
+
+end if;
+
+ 
+
+if exists(select 1 from sys.sysforeignkey where role='FK_设备保养单_RELATIONS_设备') then
+
+    alter table 设备保养单
+
+       delete foreign key FK_设备保养单_RELATIONS_设备
+
+end if;
+
+ 
+
+if exists(select 1 from sys.sysforeignkey where role='FK_设备保养单_RELATIONS_保养内容') then
+
+    alter table 设备保养单
+
+       delete foreign key FK_设备保养单_RELATIONS_保养内容
+
+end if;
+
+ 
+
+drop index if exists Relationship_6.Relationship_6_FK;
+
+ 
+
+drop table if exists Relationship_6;
+
+ 
+
+drop table if exists 保养内容;
+
+ 
+
+drop index if exists 保养消耗.Relationship_4_FK;
+
+ 
+
+drop table if exists 保养消耗;
+
+ 
+
+drop table if exists 材料;
+
+ 
+
+drop index if exists 设备.Relationship_1_FK;
+
+ 
+
+drop index if exists 设备.设备_PK;
+
+ 
+
+drop table if exists 设备;
+
+ 
+
+drop index if exists 设备保养单.Relationship_5_FK;
+
+ 
+
+drop index if exists 设备保养单.Relationship_2_FK;
+
+ 
+
+drop table if exists 设备保养单;
+
+ 
+
+drop table if exists 设备检修预警;
+
+ 
+
+/*==============================================================*/
+
+/* Table: Relationship_6                                        */
+
+/*==============================================================*/
+
+create table Relationship_6 
+
+(
+
+   
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Index: Relationship_6_FK                                     */
+
+/*==============================================================*/
+
+create index Relationship_6_FK on Relationship_6 (
+
+ 
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Table: 保养内容                                                  */
+
+/*==============================================================*/
+
+create table 保养内容 
+
+(
+
+   设备号                  integer                        null,
+
+   保养内容id               integer                        null,
+
+   保养内容                 long varchar                   null
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Table: 保养消耗                                                  */
+
+/*==============================================================*/
+
+create table 保养消耗 
+
+(
+
+   日期                   date                           null,
+
+   材料号                  integer                        null,
+
+   数量                   integer                        null,
+
+   设备号                  integer                        null
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Index: Relationship_4_FK                                     */
+
+/*==============================================================*/
+
+create index Relationship_4_FK on 保养消耗 (
+
+ 
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Table: 材料                                                    */
+
+/*==============================================================*/
+
+create table 材料 
+
+(
+
+   材料名称                 varchar(20)                    null,
+
+   材料号                  integer                        null
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Table: 设备                                                    */
+
+/*==============================================================*/
+
+create table 设备 
+
+(
+
+   设备名称                 varchar(20)                    not null,
+
+   设备类型                 integer                        null,
+
+   设备号                  integer                        null,
+
+   保养类别                 varchar(20)                    null,
+
+   提前预警期                char(10)                       null,
+
+   constraint PK_设备 primary key (设备名称)
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Index: 设备_PK                                                 */
+
+/*==============================================================*/
+
+create unique index 设备_PK on 设备 (
+
+设备名称 ASC
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Index: Relationship_1_FK                                     */
+
+/*==============================================================*/
+
+create index Relationship_1_FK on 设备 (
+
+ 
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Table: 设备保养单                                                 */
+
+/*==============================================================*/
+
+create table 设备保养单 
+
+(
+
+   设备名称                 varchar(20)                    null,
+
+   设备类型                 integer                        null,
+
+   设备号                  integer                        null,
+
+   保养类别                 varchar(20)                    null,
+
+   保养人                  long varchar                   null,
+
+   日期                   date                           null,
+
+   保养内容id               integer                        null,
+
+   完成情况                 smallint                       null
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Index: Relationship_2_FK                                     */
+
+/*==============================================================*/
+
+create index Relationship_2_FK on 设备保养单 (
+
+设备名称 ASC
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Index: Relationship_5_FK                                     */
+
+/*==============================================================*/
+
+create index Relationship_5_FK on 设备保养单 (
+
+ 
+
+);
+
+ 
+
+/*==============================================================*/
+
+/* Table: 设备检修预警                                                */
+
+/*==============================================================*/
+
+create table 设备检修预警 
+
+(
+
+   设备号                  integer                        null,
+
+   保养类别                 varchar(20)                    null,
+
+   保养日期                 date                           null,
+
+   是否提前预警               smallint                       null
+
+);
+
+ 
+
+alter table Relationship_6
+
+   add constraint FK_RELATION_RELATIONS_材料 foreign key ()
+
+      references 材料
+
+      on update restrict
+
+      on delete restrict;
+
+ 
+
+alter table Relationship_6
+
+   add constraint FK_RELATION_RELATIONS_保养消耗 foreign key ()
+
+      references 保养消耗
+
+      on update restrict
+
+      on delete restrict;
+
+ 
+
+alter table 保养消耗
+
+   add constraint FK_保养消耗_RELATIONS_设备保养单 foreign key ()
+
+      references 设备保养单
+
+      on update restrict
+
+      on delete restrict;
+
+ 
+
+alter table 设备
+
+   add constraint FK_设备_RELATIONS_设备保养单 foreign key ()
+
+      references 设备保养单
+
+      on update restrict
+
+      on delete restrict;
+
+ 
+
+alter table 设备
+
+   add constraint FK_设备_RELATIONS_设备检修预警 foreign key ()
+
+      references 设备检修预警
+
+      on update restrict
+
+      on delete restrict;
+
+ 
+
+alter table 设备保养单
+
+   add constraint FK_设备保养单_RELATIONS_设备 foreign key (设备名称)
+
+      references 设备 (设备名称)
+
+      on update restrict
+
+      on delete restrict;
+
+ 
+
+alter table 设备保养单
+
+   add constraint FK_设备保养单_RELATIONS_保养内容 foreign key ()
+
+      references 保养内容
+
+      on update restrict
+
+      on delete restrict;
+
